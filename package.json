@@ -1,0 +1,72 @@
+{
+  "name": "@mat-henriqu/masks",
+  "version": "1.0.0",
+  "description": "Máscaras, parsers e validadores puros para dados brasileiros.",
+  "keywords": [
+    "masks",
+    "mask",
+    "brasil",
+    "pt-br",
+    "cpf",
+    "cnpj",
+    "cep",
+    "telefone",
+    "moeda",
+    "brl",
+    "data",
+    "typescript"
+  ],
+  "license": "MIT",
+  "author": "Matheus Henrique",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/mat-henriqu/masks.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mat-henriqu/masks/issues"
+  },
+  "homepage": "https://github.com/mat-henriqu/masks#readme",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    }
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "LICENSE"
+  ],
+  "sideEffects": false,
+  "engines": {
+    "node": ">=18"
+  },
+  "scripts": {
+    "build": "tsup",
+    "build:watch": "tsup --watch",
+    "test": "vitest run --reporter verbose",
+    "test:watch": "vitest",
+    "test:coverage": "vitest run --coverage --reporter verbose",
+    "prepack": "npm run build"
+  },
+  "publishConfig": {
+    "registry": "https://npm.pkg.github.com"
+  },
+  "devDependencies": {
+    "@types/node": "^26.1.2",
+    "@vitest/coverage-v8": "^4.1.10",
+    "tsup": "^8.5.0",
+    "typescript": "^5.9.3",
+    "vitest": "^4.1.10"
+  },
+  "allowScripts": {
+    "esbuild@0.28.1": true
+  },
+  "overrides": {
+    "esbuild": "0.28.1"
+  }
+}
