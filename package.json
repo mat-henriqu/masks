@@ -1,6 +1,6 @@
 {
   "name": "@mat-henriqu/masks",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "Máscaras, parsers e validadores puros para dados brasileiros.",
   "keywords": [
     "masks",
@@ -51,7 +51,7 @@
     "test": "vitest run --reporter verbose",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage --reporter verbose",
-    "test:package": "node test/package-exports.test.mjs",
+    "test:package": "node test/package-exports.mjs",
     "prepack": "npm run build"
   },
   "publishConfig": {
