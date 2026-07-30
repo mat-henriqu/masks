@@ -1,6 +1,6 @@
 {
   "name": "@mat-henriqu/masks",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Máscaras, parsers e validadores puros para dados brasileiros.",
   "keywords": [
     "masks",
@@ -26,14 +26,14 @@
     "url": "https://github.com/mat-henriqu/masks/issues"
   },
   "homepage": "https://github.com/mat-henriqu/masks#readme",
-  "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
-      "import": "./dist/index.js",
-      "require": "./dist/index.cjs"
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
     }
   },
   "files": [
@@ -51,6 +51,7 @@
     "test": "vitest run --reporter verbose",
     "test:watch": "vitest",
     "test:coverage": "vitest run --coverage --reporter verbose",
+    "test:package": "node test/package-exports.test.mjs",
     "prepack": "npm run build"
   },
   "publishConfig": {

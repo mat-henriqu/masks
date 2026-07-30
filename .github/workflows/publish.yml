@@ -19,8 +19,9 @@ jobs:
           registry-url: https://npm.pkg.github.com
           scope: '@mat-henriqu'
       - run: npm ci
-      - run: npm test
       - run: npm run build
+      - run: npm test
+      - run: npm run test:package
       - run: npm publish
         env:
           NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
