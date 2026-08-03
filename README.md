@@ -92,13 +92,9 @@ formatDateTimeBR("2024-02-29T13:30:00Z", { timeZone: "UTC" }); // 29/02/2024 13:
 
 `parseDateBR` e `formatDateBR` manipulam apenas data civil e nunca usam `Date`, portanto aniversário, vencimento e competência não sofrem deslocamento de fuso. `formatDateTimeBR` aceita somente ISO com `Z` ou offset; para converter uma data/hora local, use `parseDateTimeBR`, que não representa um instante UTC.
 
-## Desenvolvimento e release
+## Documentação
 
-```powershell
-npm run build
-```
-
-O workflow `.github/workflows/publish.yml` publica somente após uma GitHub Release ser marcada como publicada. Ele usa `GITHUB_TOKEN` com `packages: write`; não há segredo de publicação no repositório. O pacote aparece inicialmente privado no GitHub Packages e sua visibilidade pode ser configurada na página do pacote.
+- [Desenvolvimento e publicação](docs/desenvolvimento-e-publicacao.md)
 
 ## Licença
 
