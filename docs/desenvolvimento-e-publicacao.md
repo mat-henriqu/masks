@@ -19,7 +19,7 @@ O Git não publica packages. O package é enviado ao GitHub Packages somente qua
 
 Requisitos:
 
-- Node.js 18 ou superior;
+- Node.js 24 LTS ou superior;
 - npm;
 - Git;
 - acesso de escrita ao repositório `mat-henriqu/masks`.
@@ -36,6 +36,8 @@ Set-Location 'D:\Projetos Pessoais\masks'; npm install
 
 As dependências exatas usadas pela automação estão fixadas em `package-lock.json`. Não altere esse arquivo manualmente; ele deve acompanhar mudanças no `package.json` feitas pelo npm.
 
+Mantenha as dependências na versão estável mais atual **compatível com a toolchain**. Uma versão major recém-publicada não deve ser adotada apenas por ser a mais nova: para ferramentas de build e geração de tipos, confirme build, declarações e testes antes de atualizar a linha major.
+
 ## 2. Entender a estrutura
 
 | Caminho | Responsabilidade |
@@ -46,6 +48,9 @@ As dependências exatas usadas pela automação estão fixadas em `package-lock.
 | `dist/` | Saída gerada pelo build; não deve ser editada manualmente. |
 | `package.json` | Nome, versão, scripts, exports e destino da publicação. |
 | `tsup.config.ts` | Configuração do bundle ESM, CommonJS e tipos. |
+| `biome.json` | Regras de formatação, lint, assists e integração com Git. |
+| `.nvmrc` | Versão Node usada como referência pelo projeto. |
+| `.github/workflows/ci.yml` | Validação automática em pushes e Pull Requests. |
 | `.github/workflows/publish.yml` | Validação e publicação após GitHub Release. |
 
 O build gera:
@@ -79,6 +84,18 @@ Convenções de branch recomendadas:
 ## 4. Validar localmente
 
 Execute as validações nesta ordem após desenvolver:
+
+```powershell
+npm run ci:biome
+```
+
+Executa a verificação completa do Biome, incluindo formatação, lint e assists, sem alterar arquivos. Use este comando para reproduzir a primeira etapa do CI.
+
+```powershell
+npm run typecheck
+```
+
+Executa o compilador TypeScript sem emitir arquivos. Além do código em `src/`, também verifica os testes TypeScript.
 
 ```powershell
 npm run build
@@ -116,11 +133,41 @@ npm pack --dry-run --ignore-scripts
 
 Lista o conteúdo do tarball sem criá-lo e sem executar scripts. Confirme que somente `dist/`, `README.md`, `LICENSE` e `package.json` entrarão no package.
 
-### Lint e formatação
+### Biome: lint, formatação e correções assistidas
 
-O projeto ainda não possui script de lint ou formatter configurado. Portanto, `npm run lint` não faz parte do fluxo atual e não deve ser documentado como validação existente.
+O projeto usa Biome como formatter, linter e ferramenta de assistências para TypeScript/JavaScript e JSON. A configuração em `biome.json` usa tabs, LF, largura máxima de 100 caracteres, aspas simples, ponto e vírgula e regras estritas adequadas a uma biblioteca sem framework.
 
-Enquanto não houver ESLint/Prettier, mantenha o estilo dos arquivos próximos, use TypeScript estrito e deixe o build e os testes como critérios técnicos obrigatórios. Quando um linter for adotado, ele deve ser adicionado ao `package.json`, executado localmente e incluído no workflow antes da publicação.
+Use os comandos abaixo conforme a intenção:
+
+```powershell
+npm run lint
+```
+
+Executa somente as regras de lint, sem alterar arquivos.
+
+```powershell
+npm run format:check
+```
+
+Confere somente a formatação, sem alterar arquivos.
+
+```powershell
+npm run check
+```
+
+Confere formatação, lint e assists juntos, sem alterar arquivos.
+
+```powershell
+npm run format
+```
+
+Formata os arquivos reconhecidos pelo Biome e altera o working tree.
+
+```powershell
+npm run check:write
+```
+
+Aplica formatação e correções seguras oferecidas pelo Biome; revise o diff antes de commitar.
 
 ## 5. Criar um commit correto
 
@@ -220,16 +267,24 @@ Não crie a release antes de enviar o commit de versão: a tag precisa apontar p
 A publicação é acionada somente pelo evento `release.published`. O workflow executa:
 
 1. checkout do commit marcado pela release;
-2. configuração do Node 20 e do registry `npm.pkg.github.com`;
+2. configuração do Node 24 LTS e do registry `npm.pkg.github.com`;
 3. `npm ci` com o lockfile;
-4. `npm run build`;
-5. `npm test`;
-6. `npm run test:package`;
-7. `npm publish`.
+4. `npm run ci:biome`;
+5. `npm run typecheck`;
+6. `npm run build`;
+7. `npm test`;
+8. `npm run test:package`;
+9. `npm publish`.
 
 O job recebe um `GITHUB_TOKEN` temporário com `contents: read` e `packages: write`. Ele é usado apenas no runner para autenticar a publicação; nenhum PAT de publicação é salvo no repositório.
 
 Se build ou qualquer teste falhar, `npm publish` não é executado. Corrija o problema, incremente a versão e crie uma nova release. Não reutilize uma versão ou tag que já tenha sido publicada ou usada em uma tentativa de release.
+
+## CI em push e Pull Request
+
+Além da publicação, `.github/workflows/ci.yml` executa em qualquer push e Pull Request. Ele tem apenas `contents: read`, não recebe permissão para publicar packages e roda a mesma sequência técnica da Release até o smoke test: instalação reprodutível, Biome, typecheck, build, testes e importações ESM/CommonJS.
+
+Use o status verde desse workflow como critério para abrir ou aprovar uma mudança. A criação de uma GitHub Release continua sendo o único gatilho de publicação no GitHub Packages.
 
 ## 9. Confirmar a publicação
 

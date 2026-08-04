@@ -1,0 +1,109 @@
+{
+	"$schema": "./node_modules/@biomejs/biome/configuration_schema.json",
+	"vcs": {
+		"enabled": true,
+		"clientKind": "git",
+		"useIgnoreFile": true,
+		"defaultBranch": "main"
+	},
+	"files": {
+		"ignoreUnknown": true,
+		"includes": ["**", "!dist", "!coverage"]
+	},
+	"formatter": {
+		"enabled": true,
+		"formatWithErrors": false,
+		"indentStyle": "tab",
+		"indentWidth": 2,
+		"lineEnding": "lf",
+		"lineWidth": 100,
+		"bracketSameLine": false,
+		"bracketSpacing": true,
+		"delimiterSpacing": false,
+		"expand": "auto",
+		"trailingNewline": true,
+		"useEditorconfig": true
+	},
+	"javascript": {
+		"formatter": {
+			"enabled": true,
+			"arrowParentheses": "always",
+			"bracketSameLine": false,
+			"bracketSpacing": true,
+			"expand": "auto",
+			"jsxQuoteStyle": "double",
+			"operatorLinebreak": "after",
+			"quoteProperties": "asNeeded",
+			"quoteStyle": "single",
+			"semicolons": "always",
+			"trailingCommas": "all"
+		}
+	},
+	"json": {
+		"formatter": {
+			"enabled": true,
+			"expand": "auto",
+			"trailingCommas": "none"
+		}
+	},
+	"linter": {
+		"enabled": true,
+		"domains": {
+			"project": "recommended",
+			"types": "recommended"
+		},
+		"rules": {
+			"preset": "recommended",
+			"complexity": {
+				"noBannedTypes": "error",
+				"noExcessiveCognitiveComplexity": "error",
+				"noUselessTernary": "error",
+				"noUselessUndefined": "error",
+				"useArrayFind": "error",
+				"useOptionalChain": "error"
+			},
+			"correctness": {
+				"noUndeclaredDependencies": "error",
+				"noUnresolvedImports": "error"
+			},
+			"style": {
+				"noNonNullAssertion": "error",
+				"noParameterAssign": "error",
+				"useConst": "error",
+				"useDefaultParameterLast": "error",
+				"useImportType": "error",
+				"useThrowOnlyError": "error"
+			},
+			"suspicious": {
+				"noConsole": "error",
+				"noDeprecatedImports": "error",
+				"noExplicitAny": "error",
+				"noImportCycles": "error",
+				"noShadow": "error",
+				"noTsIgnore": "error",
+				"noUnnecessaryConditions": "error",
+				"useArraySortCompare": "error"
+			}
+		}
+	},
+	"assist": {
+		"enabled": true,
+		"actions": {
+			"source": {
+				"organizeImports": "on"
+			}
+		}
+	},
+	"overrides": [
+		{
+			"includes": ["test/**"],
+			"linter": {
+				"rules": {
+					"suspicious": {
+						"noConsole": "off"
+					}
+				}
+			}
+		}
+	]
+}

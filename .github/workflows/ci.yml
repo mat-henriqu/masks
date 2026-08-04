@@ -1,23 +1,20 @@
-name: Publicar pacote
+name: Validar biblioteca
 
 on:
-  release:
-    types: [published]
+  push:
+  pull_request:
 
 permissions:
   contents: read
-  packages: write
 
 jobs:
-  publish:
+  validate:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v5
       - uses: actions/setup-node@v5
         with:
           node-version: 24
-          registry-url: https://npm.pkg.github.com
-          scope: '@mat-henriqu'
           cache: npm
       - run: npm ci
       - run: npm run ci:biome
@@ -25,6 +22,3 @@ jobs:
       - run: npm run build
       - run: npm test
       - run: npm run test:package
-      - run: npm publish
-        env:
-          NODE_AUTH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
