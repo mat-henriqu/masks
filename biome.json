@@ -96,9 +96,12 @@
 	},
 	"overrides": [
 		{
-			"includes": ["test/**"],
+			"includes": ["test/package-exports.mjs"],
 			"linter": {
 				"rules": {
+					"correctness": {
+						"noUnresolvedImports": "off"
+					},
 					"suspicious": {
 						"noConsole": "off"
 					}
