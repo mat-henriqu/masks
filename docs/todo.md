@@ -7,10 +7,6 @@ marcado somente quando estiver implementado, validado e documentado na versão i
 
 ## Em andamento
 
-- [ ] **P0 · v1.0.3 · Qualidade e automação**
-  - Objetivo: validar toda alteração com CI, Biome, typecheck, build e testes antes da release.
-  - Conclusão: workflow verde em push e Pull Request; workflow de Release publica com as mesmas validações.
-
 - [ ] **P1 · Manutenção · Avisar sobre v1.0.0**
   - Objetivo: alertar consumidores sobre a entrada CommonJS incorreta da primeira versão publicada.
   - Estado: bloqueado pelo GitHub Packages; o registry recusou `npm deprecate` para a versão com erro interno de metadados.
@@ -40,5 +36,6 @@ marcado somente quando estiver implementado, validado e documentado na versão i
 
 ## Concluído
 
+- [x] **P0 · v1.0.3 · Qualidade e automação** — CI verde em push, validações completas antes da release e publicação confirmada no GitHub Packages.
 - [x] **v1.0.2 · Distribuição ESM e CommonJS** — entradas corrigidas e verificadas em projeto consumidor limpo.
 - [x] **v1.0.2 · GitHub Packages público** — publicação e instalação autenticada documentadas.
